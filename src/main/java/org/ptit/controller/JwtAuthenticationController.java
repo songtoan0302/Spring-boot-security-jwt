@@ -1,5 +1,6 @@
 package org.ptit.controller;
 
+import liquibase.pro.packaged.R;
 import org.ptit.config.JwtTokenUtil;
 import org.ptit.model.User;
 import org.ptit.service.JwtUserDetailsServiceIml;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
+@RequestMapping("/api/v1/users")
 @CrossOrigin
 public class JwtAuthenticationController {
 
@@ -26,7 +28,7 @@ public class JwtAuthenticationController {
     @Autowired
     private JwtUserDetailsServiceIml userDetailsService;
 
-    @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
+    @PostMapping("/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody User authenticationRequest) throws Exception {
 
         authenticate(authenticationRequest);
@@ -39,7 +41,13 @@ public class JwtAuthenticationController {
     }
     @PostMapping("/create")
     public ResponseEntity<?> createUser(@RequestBody User user){
-        return ResponseEntity.ok(userDetailsService.createUser(user));
+        userDetailsService.createUser(user);
+        return ResponseEntity.ok("User Created!");
+    }
+
+    @GetMapping("/message")
+    public ResponseEntity<?> getMessage(){
+        return ResponseEntity.ok("Hello world!");
     }
 
 
